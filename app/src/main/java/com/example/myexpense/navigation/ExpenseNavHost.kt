@@ -31,7 +31,11 @@ fun ExpenseNavHost(
             // Placeholder for Add Expense Screen
             // This can be expanded later with actual UI components for adding an expense
             // For now, we can just display a simple text or a placeholder UI
-            AddExpenseScreen()
+            AddExpenseScreen(
+                onClose = {
+                    navController.popBackStack() // Navigate back after adding an expense
+                },
+            )
         }
 
         composable(route = Screens.Expense.route) {
@@ -40,7 +44,14 @@ fun ExpenseNavHost(
             // For now, we can just display a simple text or a placeholder UI
             // Example:
             // Text(text = "Expense Screen")
-            ExpenseScreen()
+            ExpenseScreen(
+                onAddExpense = {
+                    navController.navigate(Screens.AddExpense.route)
+                },
+//                onExpenseDetails = { expenseId ->
+//                    navController.navigate(Screens.ExpenseDetails.createRoute(expenseId))
+//                }
+            )
         }
 
         composable(route = Screens.DashBoard.route) {
