@@ -41,12 +41,7 @@ fun MyExpenseApp() {
         )
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = {
-                ExpenseTopAppBar(
-                    title = "My Expense",
-                    onNavigationBack = {}
-                )
-            },
+
             bottomBar = {
                 ExpenseBottomNavigationBar(
                     navController = navController,

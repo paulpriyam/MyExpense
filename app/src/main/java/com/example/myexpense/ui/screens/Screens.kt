@@ -36,6 +36,9 @@ sealed class Screens(val route: String, val title: String, val icon: ImageVector
     object Settings :
         Screens(ScreenNames.Settings.name, ScreenNames.Settings.title, Icons.Default.Settings)
 
+    object EditProfile :
+        Screens(ScreenNames.EditProfile.name, ScreenNames.EditProfile.title, Icons.Default.Settings)
+
 }
 
 enum class ScreenNames(val title: String) {
@@ -47,5 +50,6 @@ enum class ScreenNames(val title: String) {
     AddInvestment("Add Investment"),
     InvestmentDetails("Investment Details"),
 
-    Settings("Settings")
+    Settings("Settings"),
+    EditProfile("Edit Profile"),
 }

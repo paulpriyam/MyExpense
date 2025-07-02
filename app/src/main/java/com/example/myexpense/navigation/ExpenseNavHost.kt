@@ -57,7 +57,11 @@ fun ExpenseNavHost(
             // For now, we can just display a simple text or a placeholder UI
             // Example:
             // Text(text = "Settings Screen")
-            SettingsScreen()
+            SettingsScreen(
+                onEditProfile = {
+                    navController.navigate(Screens.EditProfile.route)
+                }
+            )
         }
         composable(route = Screens.Investment.route) {
             // Placeholder for Investment Screen

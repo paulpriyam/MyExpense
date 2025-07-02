@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Lock
@@ -26,10 +27,14 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,14 +46,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myexpense.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen() {
-    Box(
+fun SettingsScreen(onEditProfile: () -> Unit = {}) {
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Settings") },
+                navigationIcon = {
+                    IconButton(onClick = { /* Handle back navigation */ }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer, // Replace with your theme color
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer // Replace with your theme text color
+                ),
+                actions = {
+                    IconButton(onClick = onEditProfile) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "Edit Profile")
+                    }
+                }
+            )
+        },
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
-    ) {
-        SettingsContent(modifier = Modifier.padding(16.dp))
+            .background(color = MaterialTheme.colorScheme.background) // Replace with your theme background color
+    ) {innerPadding ->
+        SettingsContent(modifier = Modifier.padding(innerPadding))
     }
 }
 
@@ -63,6 +88,7 @@ fun SettingsContent(modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
