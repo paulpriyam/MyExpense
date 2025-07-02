@@ -2,7 +2,11 @@ package com.example.myexpense.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.myexpense.dao.ProfileDao
 import com.example.myexpense.db.ExpenseDatabase
+import com.example.myexpense.ui.screens.settings.repository.ProfileRepository
+import com.example.myexpense.ui.screens.settings.repository.ProfileRepositoryImpl
+import com.example.myexpense.ui.screens.settings.usecase.ProfileUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +40,13 @@ object AppModule {
     fun provideProfileDao(database: ExpenseDatabase) = database.profileDao()
 
 
+    @Provides
+    fun provideProfileRepository(profileDao: ProfileDao): ProfileRepository {
+        return ProfileRepositoryImpl(profileDao)
+    }
+
+    @Provides
+    fun provideProfileUseCase(profileRepository: ProfileRepository): ProfileUseCase {
+        return ProfileUseCase(profileRepository)
+    }
 }

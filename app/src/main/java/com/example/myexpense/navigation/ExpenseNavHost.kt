@@ -12,6 +12,7 @@ import com.example.myexpense.ui.screens.expense.ExpenseDetailsScreen
 import com.example.myexpense.ui.screens.expense.ExpenseScreen
 import com.example.myexpense.ui.screens.investment.InvestmentDetailsScreen
 import com.example.myexpense.ui.screens.investment.InvestmentScreen
+import com.example.myexpense.ui.screens.settings.EditProfileScreen
 
 
 @Composable
@@ -88,6 +89,19 @@ fun ExpenseNavHost(
             // val expenseId = backStackEntry.arguments?.getString("expenseId")
             // Text(text = "Expense Details Screen for ID: $expenseId")
             ExpenseDetailsScreen()
+        }
+
+        composable(route = Screens.EditProfile.route) {
+            // Placeholder for Edit Profile Screen
+            // This can be expanded later with actual UI components for editing user profile
+            // For now, we can just display a simple text or a placeholder UI
+            // Example:
+            // Text(text = "Edit Profile Screen")
+            EditProfileScreen(
+                onProfileSaved = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

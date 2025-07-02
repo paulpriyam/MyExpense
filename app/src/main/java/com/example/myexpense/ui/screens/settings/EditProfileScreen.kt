@@ -9,18 +9,41 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myexpense.ui.screens.settings.viewmodel.SettingsScreenViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.coroutines.launch
 
 @Composable
-fun EditProfileScreen() {
+fun EditProfileScreen(
+    viewModel: SettingsScreenViewModel = hiltViewModel(),
+    onProfileSaved: () -> Unit = {}
+) {
     val context = LocalContext.current
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var dobMillis by remember { mutableStateOf<Long?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+
+    // Collect profile state from ViewModel
+    val profile by viewModel.profileState.collectAsState()
+
+    // Initialize state with values from profile
+    var name by remember { mutableStateOf(profile?.name ?: "") }
+    var email by remember { mutableStateOf(profile?.email ?: "") }
+    var phoneNumber by remember { mutableStateOf(profile?.phoneNumber ?: "") }
+    var dobMillis by remember { mutableStateOf<Long?>(profile?.dob?.takeIf { it > 0 }) }
+
+    // Update state values when profile changes
+    LaunchedEffect(profile) {
+        profile?.let {
+            name = it.name ?: ""
+            email = it.email ?: ""
+            phoneNumber = it.phoneNumber ?: ""
+            dobMillis = it.dob.takeIf { dob -> dob > 0 }
+        }
+    }
+
     val dobFormatted = dobMillis?.let {
         SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(it))
     } ?: "Select Date of Birth"
@@ -77,7 +100,18 @@ fun EditProfileScreen() {
         }
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = { /* Save action */ },
+            onClick = {
+                val updatedProfile = com.example.myexpense.entity.ProfileEntity(
+                    name = name,
+                    email = email,
+                    phoneNumber = phoneNumber,
+                    dob = dobMillis ?: 0L
+                )
+                coroutineScope.launch {
+                    viewModel.saveOrUpdateProfile(updatedProfile)
+                    onProfileSaved() // Call the callback when profile is saved
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Save")

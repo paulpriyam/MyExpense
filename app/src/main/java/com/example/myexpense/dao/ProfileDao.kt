@@ -13,9 +13,9 @@ interface ProfileDao {
 //     Define methods for accessing the ProfileEntity data
 //     For example:
      @Insert(onConflict = OnConflictStrategy.REPLACE)
-     suspend fun insertProfile(profile: ProfileEntity)
+     fun insertProfile(profile: ProfileEntity)
 
-     @Query("SELECT * FROM profile WHERE id = :id")
+     @Query("SELECT * FROM profile WHERE userId = :id")
      suspend fun getProfileById(id: String): ProfileEntity?
 
      @Update

@@ -173,11 +173,11 @@ fun SettingsItem(
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .background(color = Color(0xFFF5F5F5)),
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 imageVector = image,
