@@ -4,11 +4,15 @@ import android.content.Context
 import androidx.room.Room
 import com.example.myexpense.dao.CategoryDao
 import com.example.myexpense.dao.ExpenseDao
+import com.example.myexpense.dao.InvestmentDao
 import com.example.myexpense.dao.ProfileDao
 import com.example.myexpense.db.ExpenseDatabase
 import com.example.myexpense.ui.screens.expense.repository.ExpenseRepository
 import com.example.myexpense.ui.screens.expense.repository.ExpenseRepositoryImpl
 import com.example.myexpense.ui.screens.expense.usecase.ExpenseUseCase
+import com.example.myexpense.ui.screens.investment.repository.InvestmentRepository
+import com.example.myexpense.ui.screens.investment.repository.InvestmentRepositoryImpl
+import com.example.myexpense.ui.screens.investment.usecase.InvestmentUseCase
 import com.example.myexpense.ui.screens.settings.repository.ProfileRepository
 import com.example.myexpense.ui.screens.settings.repository.ProfileRepositoryImpl
 import com.example.myexpense.ui.screens.settings.usecase.ProfileUseCase
@@ -33,10 +37,11 @@ object AppModule {
             ExpenseDatabase::class.java,
             "expense_database"
         )
-        .addMigrations(ExpenseDatabase.MIGRATION_1_2)
-        // Alternatively, you can use fallbackToDestructiveMigration() instead of addMigrations()
-        // .fallbackToDestructiveMigration()
-        .build()
+            .addMigrations(ExpenseDatabase.MIGRATION_1_2)
+            .addMigrations(ExpenseDatabase.MIGRATION_2_3) // Add migrations as needed
+            // Alternatively, you can use fallbackToDestructiveMigration() instead of addMigrations()
+            // .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -82,6 +87,19 @@ object AppModule {
     @Provides
     fun provideExpenseUseCase(expenseRepository: ExpenseRepository): ExpenseUseCase {
         return ExpenseUseCase(expenseRepository) // Assuming ExpenseUseCase is similar to ProfileUseCase
+    }
+
+    @Provides
+    fun provideInvestmentDao(database: ExpenseDatabase) = database.getInvestmentDao()
+
+    @Provides
+    fun provideInvestmentRepository(investmentDao: InvestmentDao): InvestmentRepository {
+        return InvestmentRepositoryImpl(investmentDao) // Assuming InvestmentRepositoryImpl is similar to other repositories
+    }
+
+    @Provides
+    fun provideInvestmentUseCase(investmentRepository: InvestmentRepository): InvestmentUseCase {
+        return InvestmentUseCase(investmentRepository) // Assuming InvestmentUseCase is similar to other use cases
     }
 }
 

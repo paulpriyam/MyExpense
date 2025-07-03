@@ -6,18 +6,21 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myexpense.dao.CategoryDao
 import com.example.myexpense.dao.ExpenseDao
+import com.example.myexpense.dao.InvestmentDao
 import com.example.myexpense.dao.ProfileDao
 import com.example.myexpense.entity.CategoryEntity
 import com.example.myexpense.entity.ExpenseEntity
+import com.example.myexpense.entity.InvestmentEntity
 import com.example.myexpense.entity.ProfileEntity
 
 @Database(
     entities = [
         ProfileEntity::class,
         ExpenseEntity::class,
-        CategoryEntity::class
+        CategoryEntity::class,
+        InvestmentEntity::class  // Adding InvestmentEntity to entities list
     ],
-    version = 2,
+    version = 3,  // Updating version number to 3
     exportSchema = false
 )
 abstract class ExpenseDatabase: RoomDatabase() {
@@ -25,6 +28,8 @@ abstract class ExpenseDatabase: RoomDatabase() {
     abstract fun profileDao(): ProfileDao
     abstract fun expenseDao(): ExpenseDao
     abstract fun categoryDao(): CategoryDao
+
+    abstract fun getInvestmentDao(): InvestmentDao
 
     companion object {
         // Migration from 1 to 2: Adding ExpenseEntity and CategoryEntity tables
@@ -55,6 +60,38 @@ abstract class ExpenseDatabase: RoomDatabase() {
                         `name` TEXT NOT NULL,
                         `userId` TEXT NOT NULL,
                         PRIMARY KEY(`id`)
+                    )
+                    """
+                )
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Create the investment table
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `investment` (
+                        `investmentId` TEXT NOT NULL,
+                        `investmentName` TEXT NOT NULL,
+                        `investmentAmount` REAL NOT NULL,
+                        `investmentDate` TEXT NOT NULL,
+                        `investmentType` TEXT NOT NULL,
+                        `investmentDescription` TEXT NOT NULL,
+                        `userId` TEXT NOT NULL,
+                        `sipType` TEXT,
+                        `sipAmount` REAL,
+                        `fdType` TEXT,
+                        `fdAmount` REAL,
+                        `fdDuration` TEXT,
+                        `fdInterest` REAL,
+                        `fdMaturityDate` TEXT,
+                        `fdMaturityAmount` REAL,
+                        `sharePrice` REAL,
+                        `shareQuantity` REAL,
+                        PRIMARY KEY(`investmentId`),
+                        FOREIGN KEY(`userId`) REFERENCES `profile`(`userId`) 
+                        ON DELETE CASCADE
                     )
                     """
                 )

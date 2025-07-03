@@ -39,6 +39,9 @@ sealed class Screens(val route: String, val title: String, val icon: ImageVector
     object EditProfile :
         Screens(ScreenNames.EditProfile.name, ScreenNames.EditProfile.title, Icons.Default.Settings)
 
+    object AddInvestment :
+        Screens(ScreenNames.AddInvestment.name, ScreenNames.AddInvestment.title, Icons.Default.Info)
+
 }
 
 enum class ScreenNames(val title: String) {

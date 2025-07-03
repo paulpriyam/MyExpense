@@ -10,6 +10,7 @@ import com.example.myexpense.ui.screens.dashboard.DashboardScreen
 import com.example.myexpense.ui.screens.expense.AddExpenseScreen
 import com.example.myexpense.ui.screens.expense.ExpenseDetailsScreen
 import com.example.myexpense.ui.screens.expense.ExpenseScreen
+import com.example.myexpense.ui.screens.investment.AddInvestmentScreen
 import com.example.myexpense.ui.screens.investment.InvestmentDetailsScreen
 import com.example.myexpense.ui.screens.investment.InvestmentScreen
 import com.example.myexpense.ui.screens.settings.EditProfileScreen
@@ -81,7 +82,14 @@ fun ExpenseNavHost(
             // For now, we can just display a simple text or a placeholder UI
             // Example:
             // Text(text = "Investment Screen")
-            InvestmentScreen()
+            InvestmentScreen(
+                onAddInvestment = {
+                    navController.navigate(Screens.AddInvestment.route)
+                },
+//                onInvestmentDetails = { investmentId ->
+//                    navController.navigate(Screens.InvestmentDetails.createRoute(investmentId))
+//                }
+            )
         }
         composable(route = Screens.InvestmentDetails.route) { backStackEntry ->
             // Placeholder for Investment Details Screen
@@ -112,6 +120,21 @@ fun ExpenseNavHost(
                 onProfileSaved = {
                     navController.popBackStack()
                 }
+            )
+        }
+        composable(route = Screens.AddInvestment.route) {
+            // Placeholder for Login Screen
+            // This can be expanded later with actual UI components for user login
+            // For now, we can just display a simple text or a placeholder UI
+            // Example:
+            // Text(text = "Login Screen")
+            AddInvestmentScreen(
+                onBackPressed = {
+                    navController.popBackStack() // Navigate back after adding an investment
+                },
+                onSave = {
+                    navController.popBackStack() // Navigate back after saving the investment
+                }, onDelete = {}
             )
         }
     }
