@@ -100,7 +100,7 @@ fun AddInvestmentScreen(
             var investmentName by remember { mutableStateOf("") }
             var investmentDescription by remember { mutableStateOf("") }
             val investmentTypes = listOf("Stocks", "Bonds", "Mutual Funds","Fixed Deposits")
-            var selectedInvestmentType by remember { mutableStateOf("Bonds") }
+            var selectedInvestmentType by remember { mutableStateOf("") }
             var isDropdownExpanded by remember { mutableStateOf(false) }
             var investmentDateMillis by remember { mutableStateOf(System.currentTimeMillis()) }
             var investmentAmount by remember { mutableStateOf("") }

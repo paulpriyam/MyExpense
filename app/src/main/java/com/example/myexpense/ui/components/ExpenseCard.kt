@@ -28,6 +28,7 @@ import com.example.myexpense.ui.screens.expense.ExpenseCardData
 @Composable
 fun ExpenseCard(
     expenseData: ExpenseCardData,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
     val textColor = when (expenseData.type) {
@@ -37,8 +38,7 @@ fun ExpenseCard(
     }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(100.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
@@ -93,6 +93,8 @@ fun ExpenseCard(
 @Composable
 fun ExpenseCardPreview() {
     ExpenseCard(
+        modifier = Modifier,
+        expenseData =
         ExpenseCardData(
             title = "Food",
             amount = 75.50,
