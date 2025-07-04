@@ -44,6 +44,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myexpense.entity.InvestmentEntity
 import com.example.myexpense.ui.components.ExpenseCard
+import com.example.myexpense.ui.components.InvestmentTypePieChart
+import com.example.myexpense.ui.components.MonthlyInvestmentBarChart
 import com.example.myexpense.ui.screens.expense.ExpenseCardData
 import com.example.myexpense.ui.screens.expense.ExpenseListItem
 import kotlin.math.ceil
@@ -169,11 +171,51 @@ fun InvestmentScreen(
                 .padding(innerPadding),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
+            // Charts section
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Investment Analytics",
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            item {
+                // Pie chart for investment type breakdown
+                InvestmentTypePieChart(
+                    investments = investments,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            item {
+                // Monthly investment bar chart  
+                MonthlyInvestmentBarChart(
+                    investments = investments,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            // Section title
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Investment Summary",
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             // Investment cards section - arranged in rows with 2 cards each
             for (i in 0 until investmentsCount step 2) {
                 item {
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(horizontal = 8.dp)
                     ) {
                         // First card in the row (always present)
@@ -206,22 +248,13 @@ fun InvestmentScreen(
                 }
             }
 
-            // Section title
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "Investment Summary",
-                    modifier = Modifier.padding(vertical=8.dp,horizontal = 16.dp),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
             // Filter chips row
             item {
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 8.dp),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
                 ) {
                     items(investmentTypes.size) { investmentTypeIndex ->
                         FilterChip(
@@ -247,7 +280,7 @@ fun InvestmentListItemView(investment: InvestmentEntity) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp,horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Category indicator
